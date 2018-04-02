@@ -1,0 +1,50 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html">
+<link rel="import" href="/bower_components/empty-state-webdash/empty-state-webdash.html">
+
+<dom-module id="webdash-travis-ci">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      /*
+      * Some of the available colors
+      * var(--brand), var(--accent), var(--danger), var(--success), var(--alternative)
+      * var(--gray-9), var(--gray-8), var(--gray-7), ... var(--gray-3)
+      * 
+      * these colors can be accessed from JavaScript (if needed)
+      * this.accent = getComputedStyle(this).getPropertyValue('--accent');
+      * https://codetogo.io/how-to-get-css-custom-property-in-javascript/
+      */
+    </style>
+
+    webdash-travis-ci code here
+
+    <template is="dom-if" if="{{emptyState}}">
+      <empty-state-webdash title="Empty state title here">
+        Empty state description here
+      </empty-state-webdash>
+    </template>
+
+
+  </template>
+
+  <script>
+    class WebdashTravisCi extends Polymer.Element {
+      static get is() { return 'webdash-travis-ci'; }
+
+      ready() {
+        this.backend = new Backend(WebdashTravisCi.is);
+        this.run();
+      }
+
+      run() {
+        //your custom logic here
+        this.emptyState = true;
+      }
+    }
+
+    window.customElements.define(WebdashTravisCi.is, WebdashTravisCi);
+  </script>
+</dom-module>
