@@ -6,15 +6,15 @@
 npm install --save-dev webdash-travis-ci
 ```
 
-[screenshot here]
-
-
 ## Features
 
-* Feature 1
-* Feature 2
-* Feature 3
+* Get latest build state directly from Travis
+* Get current active builds for all the branches in the repo
+* Cancel any current active build
 
 ## Configuration
 
-Any configuration details?
+You need to edit your `webdash.json` file, and add the following values:
+
+* `travisToken` => You can get it from [here](https://travis-ci.org/profile)
+* `repositoryName` => Equivalent to `username/repository-name`; `jadsalhani/webdash-travis-ci`
