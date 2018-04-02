@@ -13,7 +13,7 @@ module.exports = {
         const config = req.app.locals.config;
 
         if (!config.travisToken || !config.repositoryName) {
-          res.status(400).send({
+          return res.status(400).send({
             errors: true,
             message: "Invalid plugin configuration!"
           });
