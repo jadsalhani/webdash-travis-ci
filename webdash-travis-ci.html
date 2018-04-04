@@ -29,9 +29,16 @@
       Last build status: {{ firstRepoBuildStatus }}
     </template>
 
-    <template is="dom-repeat" items="{{currentActiveBuilds}}">
-      Commit message: {{ item.commit.message }}
-    </template>
+    <div>
+      <template is="dom-repeat" items="{{currentActiveBuilds}}" rendered-item-count="{{renderedCount}}">
+        Commit message: {{ item.commit.message }}
+      </template>
+
+      <template is="dom-if" if="{{!renderedCount}}">
+        No current running builds!
+      </template>
+
+    </div>
 
   </template>
 
