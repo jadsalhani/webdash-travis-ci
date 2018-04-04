@@ -20,9 +20,7 @@
     </style>
 
     <template is="dom-if" if="{{emptyState}}">
-      <empty-state-webdash title="Empty state title here">
-        Travis Token / Repo Name not specified!
-      </empty-state-webdash>
+      <empty-state-webdash title="Missing configuration" inner-h-t-m-l="{{errorMessage}}"></empty-state-webdash>
     </template>
 
     <template is="dom-if" if="{{firstRepoBuildStatus}}">
@@ -54,7 +52,9 @@
         this.backend.get("check-config").then(response => {
           if (response.errors) {
             this.emptyState = true;
-            return;
+            this.errorMessage = response.errorMessage;
+            console.log(this.shadowRoot);
+            return false;
           }
           this.getLastRepoState();
         });

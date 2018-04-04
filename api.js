@@ -1,38 +1,50 @@
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
 var headers = {
-  'Travis-API-Version': 3,
-  'User-Agent': 'Webdash-Travis-Plugin'
+  "Travis-API-Version": 3,
+  "User-Agent": "Webdash-Travis-Plugin"
 };
 
 module.exports = {
   routes: {
     get: {
-      'check-config': (req, res) => {
+      "check-config": (req, res) => {
         //get webdash.json config
         const config = req.app.locals.config;
 
-        if (!config.travisToken || !config.repositoryName) {
-          res.status(400).send({
+        let errorMessage = null;
+        if (!config.travisToken) {
+          errorMessage =
+            "Please add <strong>travisToken</strong> to your webdash.json";
+        } else if (!config.repositoryName) {
+          errorMessage =
+            "Please add <strong>repositoryName</strong> to your webdash.json";
+        }
+        if (errorMessage) {
+          return res.status(400).send({
             errors: true,
-            message: "Invalid plugin configuration!"
+            errorMessage
           });
         }
 
-        headers.Authorization = `token ${config.travisToken}`
+        headers.Authorization = `token ${config.travisToken}`;
 
-        return res.send(true);
+        return res.send({
+          errors: false
+        });
       },
-      'build-status': (req, res) => {
+      "build-status": (req, res) => {
         const config = req.app.locals.config;
-        let uriQuery = `https://api.travis-ci.org/repo/${encodeURIComponent(config.repositoryName)}/builds?limit=2&sort_by=finished_at:desc`;
+        let uriQuery = `https://api.travis-ci.org/repo/${encodeURIComponent(
+          config.repositoryName
+        )}/builds?limit=2&sort_by=finished_at:desc`;
 
         fetch(uriQuery, {
-            headers
-          })
+          headers
+        })
           .then(response => response.json())
           .then(response => res.send(response));
       }
     }
   }
-}
+};
