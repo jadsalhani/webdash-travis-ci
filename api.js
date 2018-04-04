@@ -44,7 +44,18 @@ module.exports = {
         })
           .then(response => response.json())
           .then(response => res.send(response));
-      }
+      },
+      'active-builds': (req, res) => {
+        const config = req.app.locals.config;
+
+        let url = `https://api.travis-ci.org/repo/${encodeURIComponent(config.repositoryName)}/builds?state=started&sort_by=started_at:asc`;
+
+        fetch(url, {
+            headers
+          })
+          .then(response => response.json())
+          .then(response => res.send(response));
+      },
     }
   }
 };

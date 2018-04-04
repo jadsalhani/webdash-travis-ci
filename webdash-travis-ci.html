@@ -27,6 +27,19 @@
       Last build status: {{ firstRepoBuildStatus }}
     </template>
 
+    <div>
+      <template is="dom-repeat" items="{{currentActiveBuilds}}" rendered-item-count="{{renderedCount}}">
+        Commit message: {{ item.commit.message }}
+      </template>
+
+      <template is="dom-if" if="{{!renderedCount}}">
+        No current running builds!
+      </template>
+
+      <button on-click="getActiveBuilds">
+        Refresh
+      </button>
+    </div>
 
   </template>
 
@@ -42,12 +55,6 @@
         this.run();
       }
 
-      getLastRepoState() {
-        this.backend.get('build-status').then(data => {
-          this.firstRepoBuildStatus = data.builds[0].state;
-        })
-      }
-
       run() {
         this.backend.get("check-config").then(response => {
           if (response.errors) {
@@ -57,8 +64,20 @@
             return false;
           }
           this.getLastRepoState();
+          this.getActiveBuilds();
         });
+      }
 
+      getLastRepoState() {
+        this.backend.get('build-status').then(data => {
+          this.firstRepoBuildStatus = data.builds[0].state;
+        })
+      }
+
+      getActiveBuilds() {
+        this.backend.get('active-builds').then(data => {
+          this.currentActiveBuilds = data.builds;
+        });
       }
     }
 
