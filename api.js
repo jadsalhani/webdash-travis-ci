@@ -43,20 +43,28 @@ module.exports = {
           headers
         })
           .then(response => response.json())
-          .then(response => res.send(response));
+          .then(response => res.send(response))
+          .catch(error => {
+            console.log("There was a problem while checking your build status");
+            console.log(error);
+          });
       },
       "active-builds": (req, res) => {
         const config = req.app.locals.config;
 
         let url = `https://api.travis-ci.org/repo/${encodeURIComponent(
-          config.travis.githubRepo
-        )}/builds?state=started&sort_by=started_at:asc`;
+            config.travis.githubRepo
+            )}/builds?state=started&sort_by=started_at:asc`;
 
-        fetch(url, {
-          headers
-        })
+        fetch(url, { headers })
           .then(response => response.json())
-          .then(response => res.send(response));
+          .then(response => res.send(response))
+          .catch(error => {
+            console.log(
+              "There was a problem while checking your active builds"
+            );
+            console.log(error);
+          });
       }
     }
   }
