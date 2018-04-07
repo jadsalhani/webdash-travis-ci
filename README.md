@@ -18,3 +18,14 @@ You need to edit your `webdash.json` file, and add the following values:
 
 * `token` => You can get it from [here](https://travis-ci.org/profile)
 * `githubRepo` => Equivalent to `username/repository-name`; `jadsalhani/webdash-travis-ci`
+
+Like so:
+
+```[js]
+{
+    "travis": {
+          "token": "travis-token-here",
+          "githubRepo": "username/repo"
+     }
+}
+```
