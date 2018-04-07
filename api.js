@@ -15,14 +15,14 @@ module.exports = {
         let errorMessage = null;
         if (!config.travis) {
           errorMessage =
-            "Please add the general <strong>config</strong> object to your webdash.json";
+            "Please add the plugin's <strong>travis</strong> object to your webdash.json";
         }
         if (!config.travis.token) {
           errorMessage =
-            "Please add travis <strong>token</strong> property to your webdash.json";
+            "Please add <strong>travis.token</strong> to your webdash.json";
         } else if (!config.travis.githubRepo) {
           errorMessage =
-            "Please add <strong>githubRepo</strong> property to your webdash.json";
+            "Please add <strong>travis.githubRepo</strong> to your webdash.json";
         }
         if (errorMessage) {
           return res.status(400).send({
