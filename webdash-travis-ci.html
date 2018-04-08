@@ -8,6 +8,40 @@
         display: block;
       }
 
+      .grid {
+        display: grid;
+      }
+
+      .grid-large {
+        grid-template-columns: repeat(1, minmax(100px, 1fr));
+      }
+
+      .grid-small {
+        grid-template-columns: 1fr 0.5fr;
+      }
+
+      .successBuild {
+        font-weight: 900;
+        color: var(--success);
+      }
+
+      .errorBuild {
+        font-weight: 900;
+        color: var(--danger);
+      }
+
+      .sectionTitle {
+        color: var(--gray);
+        font-size: 1.1rem;
+        margin: 10px 0px 10px 0px;
+        font-weight: bold;
+      }
+
+      .noDataFoundText {
+        text-align: center;
+        color: var(--gray);
+      }
+
       /*
       * Some of the available colors
       * var(--brand), var(--accent), var(--danger), var(--success), var(--alternative)
@@ -19,37 +53,49 @@
       */
     </style>
 
-    <template is="dom-if" if="{{emptyState}}">
-      <empty-state-webdash title="Missing configuration" inner-h-t-m-l="{{errorMessage}}"></empty-state-webdash>
-    </template>
+    <div class="grid grid-large">
 
-    <template is="dom-if" if="{{firstRepoBuildStatus}}">
-      Last build status: {{ firstRepoBuildStatus }}
-    </template>
-
-    <div>
-      <template is="dom-repeat" items="{{currentActiveBuilds}}" rendered-item-count="{{renderedCount}}">
-        Commit message: {{ item.commit.message }}
+      <template is="dom-if" if="{{emptyState}}">
+        <empty-state-webdash title="Missing configuration" inner-h-t-m-l="{{errorMessage}}"></empty-state-webdash>
       </template>
 
-      <template is="dom-if" if="{{!renderedCount}}">
-        No current running builds!
-      </template>
-    </div>
-
-    <div>
       <div>
-        Result of last 2 builds:
+        <template is="dom-if" if="{{firstRepoBuildStatus}}">
+          <div class="sectionTitle">Last build status:
+            <span class$="{{getStateClass(firstRepoBuildStatus)}}">{{ firstRepoBuildStatus }}</span>
+          </div>
+        </template>
       </div>
-      <template is="dom-repeat" items="{{lastBuilds}}">
-        <div class="">
-          Commit message: {{ item.commit.message }}
-          <br> State: {{ item.state }}
+
+      <div>
+        <div class="sectionTitle">
+          Result of last 2 builds:
         </div>
-      </template>
+        <template is="dom-repeat" items="{{lastBuilds}}">
+          <div class="grid grid-small">
+            <div>Commit message: {{ item.commit.message }}</div>
+            <div>Status:
+              <span class$="{{getStateClass(item.state)}}">{{ item.state }}</span>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <div>
+        <template is="dom-repeat" items="{{currentActiveBuilds}}" rendered-item-count="{{renderedCount}}">
+          <p class="sectionTitle">Running builds:</p>
+          <p>Commit message: {{ item.commit.message }}</p>
+        </template>
+
+        <template is="dom-if" if="{{!renderedCount}}">
+          <div class="sectionTitle noDataFoundText">No current running builds!</div>
+        </template>
+      </div>
+
     </div>
 
   </template>
+
 
   <script>
     class WebdashTravisCi extends Polymer.Element {
@@ -93,6 +139,19 @@
         this.backend.get('active-builds').then(data => {
           this.currentActiveBuilds = data.builds;
         });
+      }
+
+      getStateClass(status) {
+        console.log('hello');
+        var classes = 'buildStatus'
+        if (status === 'passed') {
+          classes += ' successBuild';
+        }
+
+        if (status === 'failed') {
+          classes += ' errorBuild';
+        }
+        return classes;
       }
     }
 
