@@ -37,6 +37,18 @@
       </template>
     </div>
 
+    <div>
+      <div>
+        Result of last 2 builds:
+      </div>
+      <template is="dom-repeat" items="{{lastBuilds}}">
+        <div class="">
+          Commit message: {{ item.commit.message }}
+          <br> State: {{ item.state }}
+        </div>
+      </template>
+    </div>
+
   </template>
 
   <script>
@@ -61,6 +73,7 @@
           }
           this.getLastRepoState();
           this.getActiveBuilds();
+          this.getLastBuilds();
         });
       }
 
@@ -68,6 +81,12 @@
         this.backend.get('build-status').then(data => {
           this.firstRepoBuildStatus = data.builds[0].state;
         })
+      }
+
+      getLastBuilds() {
+        this.backend.get('last-builds').then(data => {
+          this.lastBuilds = data.builds;
+        });
       }
 
       getActiveBuilds() {

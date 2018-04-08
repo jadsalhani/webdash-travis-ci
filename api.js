@@ -41,7 +41,7 @@ module.exports = {
         const config = req.app.locals.config;
         let uriQuery = `https://api.travis-ci.org/repo/${encodeURIComponent(
           config.travis.githubRepo
-        )}/builds?limit=2&sort_by=finished_at:desc`;
+        )}/builds?limit=1&sort_by=finished_at:desc`;
 
         fetch(uriQuery, {
             headers
@@ -68,6 +68,25 @@ module.exports = {
           .catch(error => {
             console.log(
               "There was a problem while checking your active builds"
+            );
+            console.log(error);
+          });
+      },
+      "last-builds": (req, res) => {
+        const config = req.app.locals.config;
+
+        let url = `https://api.travis-ci.org/repo/${encodeURIComponent(
+            config.travis.githubRepo
+          )}/builds?limit=2&sort_by=finished_at:desc`;
+
+        fetch(url, {
+            headers
+          })
+          .then(response => response.json())
+          .then(response => res.send(response))
+          .catch(error => {
+            console.log(
+              "There was a problem while checking your last builds"
             );
             console.log(error);
           });
