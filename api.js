@@ -13,12 +13,16 @@ module.exports = {
         const config = req.app.locals.config;
 
         let errorMessage = null;
-        if (!config.travis && !config.travis.token) {
+        if (!config.travis) {
           errorMessage =
-            "Please add <strong>travisToken</strong> to your webdash.json";
-        } else if (!config.travis && !config.travis.githubRepo) {
+            "Please add the plugin's <strong>travis</strong> object to your webdash.json";
+        }
+        if (!config.travis.token) {
           errorMessage =
-            "Please add <strong>repositoryName</strong> to your webdash.json";
+            "Please add <strong>travis.token</strong> to your webdash.json";
+        } else if (!config.travis.githubRepo) {
+          errorMessage =
+            "Please add <strong>travis.githubRepo</strong> to your webdash.json";
         }
         if (errorMessage) {
           return res.status(400).send({
@@ -40,8 +44,8 @@ module.exports = {
         )}/builds?limit=2&sort_by=finished_at:desc`;
 
         fetch(uriQuery, {
-          headers
-        })
+            headers
+          })
           .then(response => response.json())
           .then(response => res.send(response))
           .catch(error => {
@@ -56,7 +60,9 @@ module.exports = {
             config.travis.githubRepo
             )}/builds?state=started&sort_by=started_at:asc`;
 
-        fetch(url, { headers })
+        fetch(url, {
+            headers
+          })
           .then(response => response.json())
           .then(response => res.send(response))
           .catch(error => {

@@ -16,5 +16,16 @@ npm install --save-dev webdash-travis-ci
 
 You need to edit your `webdash.json` file, and add the following values:
 
-* `travisToken` => You can get it from [here](https://travis-ci.org/profile)
-* `repositoryName` => Equivalent to `username/repository-name`; `jadsalhani/webdash-travis-ci`
+* `token` => You can get it from [here](https://travis-ci.org/profile)
+* `githubRepo` => Equivalent to `username/repository-name`; `jadsalhani/webdash-travis-ci`
+
+Like so:
+
+```json
+{
+    "travis": {
+          "token": "travis-token-here",
+          "githubRepo": "username/repo"
+     }
+}
+```
