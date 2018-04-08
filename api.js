@@ -17,20 +17,21 @@ module.exports = {
           errorMessages.push("Please add the plugin's <strong>travis</strong> object to your webdash.json");
           return res.status(400).send({
             errors: true,
-            errorMessage
+            errorMessages
           });
         }
 
         if (!config.travis.token) {
           errorMessages.push("Please add <strong>travis.token</strong> to your webdash.json");
-        } else if (!config.travis.githubRepo) {
+        }
+        if (!config.travis.githubRepo) {
           errorMessages.push("Please add <strong>travis.githubRepo</strong> to your webdash.json");
         }
 
         if (errorMessages.length) {
           return res.status(400).send({
             errors: true,
-            errorMessage
+            errorMessages
           });
         }
 
