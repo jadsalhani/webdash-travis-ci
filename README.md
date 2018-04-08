@@ -21,7 +21,7 @@ You need to edit your `webdash.json` file, and add the following values:
 
 Like so:
 
-```[js]
+```json
 {
     "travis": {
           "token": "travis-token-here",
