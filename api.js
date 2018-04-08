@@ -12,19 +12,22 @@ module.exports = {
         //get webdash.json config
         const config = req.app.locals.config;
 
-        let errorMessage = null;
+        let errorMessages = [];
         if (!config.travis) {
-          errorMessage =
-            "Please add the plugin's <strong>travis</strong> object to your webdash.json";
+          errorMessages.push("Please add the plugin's <strong>travis</strong> object to your webdash.json");
+          return res.status(400).send({
+            errors: true,
+            errorMessage
+          });
         }
+
         if (!config.travis.token) {
-          errorMessage =
-            "Please add <strong>travis.token</strong> to your webdash.json";
+          errorMessages.push("Please add <strong>travis.token</strong> to your webdash.json");
         } else if (!config.travis.githubRepo) {
-          errorMessage =
-            "Please add <strong>travis.githubRepo</strong> to your webdash.json";
+          errorMessages.push("Please add <strong>travis.githubRepo</strong> to your webdash.json");
         }
-        if (errorMessage) {
+
+        if (errorMessages.length) {
           return res.status(400).send({
             errors: true,
             errorMessage
