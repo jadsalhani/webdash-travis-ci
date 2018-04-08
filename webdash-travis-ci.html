@@ -42,9 +42,11 @@
     </div>
 
     <div>
-      <div>
-        Result of last 2 builds:
-      </div>
+      <template is="dom-if" if="{{!emptyState}}">
+        <div>
+          Result of last 2 builds:
+        </div>
+      </template>
       <template is="dom-repeat" items="{{lastBuilds}}">
         <div class="">
           Commit message: {{ item.commit.message }}
