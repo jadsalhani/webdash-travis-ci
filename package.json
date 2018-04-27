@@ -1,7 +1,7 @@
 {
   "name": "webdash-travis-ci",
-  "version": "0.0.1",
-  "description": "",
+  "version": "1.0.0",
+  "description": "Webdash plugin to integrate Travis CI build tracking",
   "main": "api.js",
   "directories": {
     "test": "test"
@@ -16,7 +16,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Jad Salhani",
   "license": "MIT",
   "dependencies": {
     "node-fetch": "^2.1.2"
